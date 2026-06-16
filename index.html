@@ -149,7 +149,25 @@
     <section id="experience" class="reveal">
       <div class="container">
         <h2 class="section-title">Professional Experience</h2>
-        <div class="timeline">
+
+        <!-- View Toggle Controls -->
+        <div class="view-toggle-wrapper">
+          <div class="view-toggle">
+            <button class="toggle-btn active" data-view="timeline" aria-label="Show Timeline View">
+              <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Timeline View</span>
+            </button>
+            <button class="toggle-btn" data-view="roadmap" aria-label="Show Map View">
+              <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+              <span>Map View</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="experience-views-container">
+          <!-- Timeline View -->
+          <div class="experience-view active" id="view-timeline">
+            <div class="timeline">
           
           <!-- Experience Card 1: Google -->
           <div class="timeline-item">
@@ -310,7 +328,23 @@
 
         </div>
       </div>
-    </section>
+
+      <!-- Roadmap View -->
+      <div class="experience-view" id="view-roadmap">
+        <div class="roadmap-wrapper">
+          <p class="roadmap-hint">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.1em" width="1.1em" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            Click or tap on the map to view in fullscreen
+          </p>
+          <div class="roadmap-image-container">
+            <img src="/assets/img/career-roadmap.jpg" alt="RPG Quest Career Journey Map of Ankur Wahi" class="roadmap-img">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
     <!-- Section 4: Projects -->
     <section id="projects" class="reveal">
@@ -818,6 +852,56 @@
             dot.classList.add('active');
           } else {
             dot.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- Lightbox Modal for Map -->
+  <div class="map-lightbox" id="map-lightbox">
+    <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+    <img src="/assets/img/career-roadmap.jpg" alt="RPG Career Journey Map Full View" class="lightbox-img">
+  </div>
+
+  <script>
+    // View Toggle and Map Lightbox Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtns = document.querySelectorAll('.toggle-btn');
+      const views = document.querySelectorAll('.experience-view');
+      
+      toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetView = btn.getAttribute('data-view');
+          
+          toggleBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          views.forEach(view => {
+            if (view.id === `view-${targetView}`) {
+              view.classList.add('active');
+            } else {
+              view.classList.remove('active');
+            }
+          });
+        });
+      });
+
+      // Lightbox logic
+      const mapContainer = document.querySelector('.roadmap-image-container');
+      const lightbox = document.getElementById('map-lightbox');
+      const closeBtn = document.querySelector('.lightbox-close');
+
+      if (mapContainer && lightbox && closeBtn) {
+        mapContainer.addEventListener('click', () => {
+          lightbox.classList.add('active');
+          document.body.style.overflow = 'hidden'; // prevent scrolling behind modal
+        });
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox || e.target === closeBtn || e.target.classList.contains('lightbox-close')) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
           }
         });
       }
