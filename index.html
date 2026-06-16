@@ -726,6 +726,67 @@
       setTimeout(typeEffect, 500);
     });
   </script>
+
+  <!-- Floating Theme Switcher Widget -->
+  <div class="theme-switcher-widget">
+    <button class="theme-toggle-btn" aria-label="Toggle theme settings" title="Change Theme Accent">
+      <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a7 7 0 1 0 10 10"></path>
+      </svg>
+    </button>
+    <div class="theme-options-panel">
+      <button class="theme-dot active" data-theme="default" style="background-color: #00f5d4;" title="Neon Cyan"></button>
+      <button class="theme-dot" data-theme="theme-purple" style="background-color: #bd00ff;" title="Electric Purple"></button>
+      <button class="theme-dot" data-theme="theme-emerald" style="background-color: #10b981;" title="Emerald Green"></button>
+      <button class="theme-dot" data-theme="theme-orange" style="background-color: #ff7b00;" title="Sunset Orange"></button>
+      <button class="theme-dot" data-theme="theme-rose" style="background-color: #f43f5e;" title="Hyper Rose"></button>
+    </div>
+  </div>
+
+  <script>
+    // Theme Accent Switcher Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeDots = document.querySelectorAll('.theme-dot');
+      
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme-accent') || 'default';
+      if (savedTheme !== 'default') {
+        document.body.classList.remove('theme-purple', 'theme-emerald', 'theme-orange', 'theme-rose');
+        document.body.classList.add(savedTheme);
+        updateActiveDot(savedTheme);
+      }
+      
+      themeDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const selectedTheme = dot.getAttribute('data-theme');
+          
+          // Remove all theme classes
+          document.body.classList.remove('theme-purple', 'theme-emerald', 'theme-orange', 'theme-rose');
+          
+          // Apply new theme class if not default
+          if (selectedTheme !== 'default') {
+            document.body.classList.add(selectedTheme);
+            localStorage.setItem('theme-accent', selectedTheme);
+          } else {
+            localStorage.setItem('theme-accent', 'default');
+          }
+          
+          updateActiveDot(selectedTheme);
+        });
+      });
+      
+      function updateActiveDot(themeName) {
+        themeDots.forEach(dot => {
+          if (dot.getAttribute('data-theme') === themeName) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
