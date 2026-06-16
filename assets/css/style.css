@@ -723,16 +723,22 @@ header {
   box-shadow: 0 4px 15px rgba(0, 245, 212, 0.1);
 }
 
-.skill-logo {
+.skill-logo, .skill-svg {
   height: 40px;
-  width: auto;
+  width: 40px;
   object-fit: contain;
   filter: grayscale(10%) brightness(95%);
   transition: var(--transition-fast);
+  color: var(--text-muted);
 }
 
 .skill-item:hover .skill-logo {
   filter: grayscale(0%) brightness(100%);
+}
+
+.skill-item:hover .skill-svg {
+  filter: grayscale(0%) brightness(100%);
+  color: var(--accent-color);
 }
 
 .skill-name {
